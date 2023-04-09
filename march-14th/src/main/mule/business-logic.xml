@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 }]]]></db:input-parameters>
 		</db:select>
 		</until-successful>
-		<logger level="INFO" doc:name="Logger" doc:id="8a677df5-e932-43dd-97c6-bc529b8f4785" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="8a677df5-e932-43dd-97c6-bc529b8f4785" message="payload::::#[payload]"/>
 	</flow>
 	<flow name="post_Flow1" doc:id="e157a8c4-affa-4655-a0c9-70d02ccee7d6" >
 		<until-successful maxRetries="${retry}" doc:name="Until Successful" doc:id="dd556749-b082-4899-ba64-9f96eaff033e" millisBetweenRetries="${time}" >
