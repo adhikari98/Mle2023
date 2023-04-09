@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="get_Flow" doc:id="4612a564-bb5e-476b-9018-06515c57d015" >
+		<until-successful maxRetries="${retry}" doc:name="Until Successful" doc:id="f729a0d4-03f5-4b0c-8303-d68dcadfa458" millisBetweenRetries="${time}">
+			<db:select doc:name="Select" doc:id="a2281cf0-1332-4b2b-a079-e5b324dcd7bc" config-ref="database_Config">
+			<db:sql><![CDATA[SELECT * FROM employee.location where eid= :eskill;]]></db:sql>
+			<db:input-parameters><![CDATA[#[{
+	"eskill":attributes.queryParams.keyword
+}]]]></db:input-parameters>
+		</db:select>
+		</until-successful>
+		<logger level="INFO" doc:name="Logger" doc:id="8a677df5-e932-43dd-97c6-bc529b8f4785" message="#[payload]"/>
+	</flow>
+	<flow name="post_Flow1" doc:id="e157a8c4-affa-4655-a0c9-70d02ccee7d6" >
+		<until-successful maxRetries="${retry}" doc:name="Until Successful" doc:id="dd556749-b082-4899-ba64-9f96eaff033e" millisBetweenRetries="${time}" >
+			<db:insert doc:name="Insert" doc:id="2d537dc1-9c57-4ef6-a2fc-8358d037e11d" config-ref="database_Config" >
+				<db:sql ><![CDATA[INSERT INTO `employee`.`location` (`eid`, `ename`) VALUES (:eid, :ename);]]></db:sql>
+				<db:input-parameters ><![CDATA[#[{
+	"eid":payload.id,
+	"ename":payload.name
+}]]]></db:input-parameters>
+			</db:insert>
+		</until-successful>
+		<logger level="INFO" doc:name="Logger" doc:id="51f8e2a1-8333-4fdb-b222-c2adc873b1ed" message="#[payload]" />
+	</flow>
+	<flow name="put_Flow2" doc:id="9b379f34-8667-4b44-9f09-3279bf2ba4aa" >
+		<until-successful maxRetries="${retry}" doc:name="Until Successful" doc:id="5460af70-d514-4b37-9d59-007c181f9b11" millisBetweenRetries="${time}" >
+			<db:update doc:name="Update" doc:id="2d01342b-e1a4-4c32-832f-d434f4847f29" config-ref="database_Config" >
+				<db:sql ><![CDATA[UPDATE `employee`.`location` SET `ename` = :ename WHERE (`eid` = :eid);]]></db:sql>
+				<db:input-parameters ><![CDATA[#[{
+	"eid":payload.id,
+	"ename":payload.name
+}]]]></db:input-parameters>
+			</db:update>
+		</until-successful>
+		<logger level="INFO" doc:name="Logger" doc:id="3cbfba61-d940-48b3-b359-ae8ec4c4fd0c" message="#[payload]" />
+	</flow>
+	<flow name="delete_Flow3" doc:id="a8ce5711-d465-4ea6-b1cc-35459414c2c7" >
+		<until-successful maxRetries="${retry}" doc:name="Until Successful" doc:id="65fba231-bfb5-4ff4-b868-facdba6144b4" millisBetweenRetries="${time}" >
+			<db:delete doc:name="Delete" doc:id="c5249f5d-a43f-420e-9d1b-0a397b7acdd0" config-ref="database_Config" >
+				<db:sql ><![CDATA[DELETE FROM `employee`.`location` WHERE (`eid` = :eid);]]></db:sql>
+				<db:input-parameters ><![CDATA[#[{
+	"eid":payload.id
+}]]]></db:input-parameters>
+			</db:delete>
+		</until-successful>
+		<logger level="INFO" doc:name="Logger" doc:id="ea65b8cc-03b4-40b8-b11d-e2b1da69fbfc" message="#[payload]" />
+	</flow>
+</mule>

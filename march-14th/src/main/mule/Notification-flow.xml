@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+	<sub-flow name="Notification-flowSub_Flow" doc:id="a322c401-39c0-45fd-9329-53214bc4a6df" >
+		<logger level="INFO" doc:name="Logger" doc:id="48e1e90d-3cc8-40aa-8547-8dd9970e0c27" message="notification"/>
+		<email:send doc:name="Send" doc:id="054dd4d8-28bc-4b84-8304-d616f2466f04" config-ref="Email_SMTP" fromAddress="shivayya2468@gmail.com" subject="['Error Occered in API']" >
+			<email:to-addresses >
+				<email:to-address value="a.upendra98@gmail.com" />
+			</email:to-addresses>
+			<email:body contentType="text/plain" />
+		</email:send>
+	</sub-flow>
+</mule>

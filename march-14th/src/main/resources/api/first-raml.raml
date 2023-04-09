@@ -1,0 +1,60 @@
+#%RAML 1.0
+title: first-RAML
+uses:
+  lib: libaries/library.raml
+/search:
+  get:
+    is: lib.client-id-required
+    queryParameters:
+      keyword:
+        type: string
+        minLength: 2
+        maxLength: 5
+    description: this is my first code
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include responses/getresponse.json  
+  post:
+    is: lib.client-id-required
+    description: to insert the data
+    body:
+      application/json:
+        example: !include request/postrequest.json
+        type: !include Datatypes/postdataType.raml   
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include responses/postrespose.json          
+  put:
+    is: lib.client-id-required
+    description: to update the data
+    body:
+      application/json:
+        example: !include request/putrequest.json
+        type: !include Datatypes/putdataType.raml       
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include responses/putresponse.json            
+  delete:
+    is: lib.client-id-required
+    description: to delete the data
+    body:
+      application/json:
+        example: !include request/deleterequest.json
+        type: !include Datatypes/deletedataType.raml       
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include responses/deleteresponse.json
+                                   
+            
+            
+                          
+        
+                            
